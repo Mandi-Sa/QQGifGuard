@@ -1,0 +1,65 @@
+name: Build
+
+on:
+  push:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: gradle
+          cache-dependency-path: module/gradle/wrapper/gradle-wrapper.properties
+
+      - uses: android-actions/setup-android@v4
+
+      - name: Install Android SDK packages
+        run: sdkmanager "platforms;android-34" "build-tools;34.0.0"
+
+      - name: Build debug and release
+        run: |
+          chmod +x scripts/build.sh module/gradlew
+          ./scripts/build.sh debug
+          ./scripts/build.sh release
+          ls -lh dist/*.apk
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: QQGifGuard
+          path: |
+            dist/QQGifGuard-debug.apk
+            dist/QQGifGuard-release.apk
+          if-no-files-found: error
+
+      - name: Publish GitHub Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          VERSION="$(sed -nE 's/.*versionName[[:space:]]*=[[:space:]]*"([^"]+)".*/\1/p' module/app/build.gradle.kts | head -n1)"
+          test -n "$VERSION"
+          TAG="${GITHUB_REF_NAME}"
+          if [ "$TAG" != "v${VERSION}" ]; then
+            echo "tag $TAG does not match versionName $VERSION"
+            exit 1
+          fi
+          gh release create "$TAG" \
+            dist/QQGifGuard-debug.apk \
+            dist/QQGifGuard-release.apk \
+            --title "QQGifGuard ${VERSION}" \
+            --generate-notes \
+            --latest \
+            --target "${GITHUB_SHA}"
