@@ -78,9 +78,13 @@ Output:
 
 ```text
 dist/QQGifGuard-debug.apk
+dist/QQGifGuard-release.apk
 # or
 module/app/build/outputs/apk/debug/app-debug.apk
+module/app/build/outputs/apk/release/app-release.apk
 ```
+
+`debug` keeps the full `QQGifGuard` trace. `release` prints startup/boot lines only.
 
 ## Install
 
@@ -118,7 +122,7 @@ Expected:
 - Periodic `stats reason=...` lines show tracked / stopped / recycled / blocked counters
 - After idle or UID unfreeze, no sustained `pool-*` / `libgiflibra` CPU spin
 
-See `docs/verification.md` for the full 0.2.2 regression checklist and observation commands.
+See `docs/verification.md` for the full 0.2.3 regression checklist and observation commands. Action lines (`render allowed`, `stats`, stop/recycle) are on the debug APK.
 
 ## Version lock
 

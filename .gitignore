@@ -39,6 +39,9 @@ temp/
 *.bak
 *.swp
 
+# Local analysis notes
+/notes/
+
 # Private research materials (do not commit)
 docs/handoff-research.md
 docs/jadx-notes-9.1.25.md

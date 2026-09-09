@@ -2,27 +2,43 @@ package com.pjz.qqgifguard;
 
 import de.robv.android.xposed.XposedBridge;
 
-/** Thin logging helper with a stable tag for logcat filters. */
+/**
+ * Thin logging helper with a stable tag for log filters.
+ * Release prints boot/startup lines only. Debug keeps the full trace.
+ */
 final class XLog {
     private static final String TAG = "QQGifGuard";
+    private static final boolean DEBUG = BuildConfig.DEBUG;
 
     private XLog() {
     }
 
-    static void i(String msg) {
+    static void boot(String msg) {
         XposedBridge.log(TAG + ": " + msg);
+    }
+
+    static void i(String msg) {
+        if (DEBUG) {
+            XposedBridge.log(TAG + ": " + msg);
+        }
     }
 
     static void d(String msg) {
-        XposedBridge.log(TAG + ": " + msg);
+        if (DEBUG) {
+            XposedBridge.log(TAG + ": " + msg);
+        }
     }
 
     static void w(String msg) {
-        XposedBridge.log(TAG + ": WARN " + msg);
+        if (DEBUG) {
+            XposedBridge.log(TAG + ": WARN " + msg);
+        }
     }
 
     static void e(String msg, Throwable t) {
         XposedBridge.log(TAG + ": ERROR " + msg);
-        XposedBridge.log(t);
+        if (t != null) {
+            XposedBridge.log(t);
+        }
     }
 }

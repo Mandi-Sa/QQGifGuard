@@ -42,7 +42,7 @@ Hidden / detached / non-interactive
 | `UiVisibility` | Interactive-state estimator |
 | `GifDrawableTracker` | Per-drawable track / stop / delayed recycle |
 | `GuardStats` | tracked / stopped / recycled / blocked counters + summaries |
-| `XLog` | Stable `QQGifGuard` message prefix for log filters |
+| `XLog` | Stable `QQGifGuard` prefix; release prints boot lines, debug keeps the full trace |
 
 ## Hook surface (9.1.25)
 

@@ -12,7 +12,7 @@ case "${VARIANT}" in
     ;;
   release|Release)
     TASK=":app:assembleRelease"
-    APK_REL="app/build/outputs/apk/release/app-release-unsigned.apk"
+    APK_REL="app/build/outputs/apk/release/app-release.apk"
     ;;
   *)
     echo "Usage: $0 [debug|release]" >&2

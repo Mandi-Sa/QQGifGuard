@@ -50,7 +50,7 @@ public class MainHook implements IXposedHookLoadPackage {
             return;
         }
 
-        XLog.i("loading in " + lpparam.packageName
+        XLog.boot("loading in " + lpparam.packageName
                 + " process=" + lpparam.processName
                 + " sdk=" + android.os.Build.VERSION.SDK_INT);
 
@@ -79,7 +79,7 @@ public class MainHook implements IXposedHookLoadPackage {
         hookRenderTask(lpparam.classLoader);
         startMaintenanceSweeper();
 
-        XLog.i("hooks installed (L1+L2 conservative orphan recycle)");
+        XLog.boot("hooks installed (L1+L2 conservative orphan recycle)");
     }
 
     private void startMaintenanceSweeper() {
@@ -113,7 +113,7 @@ public class MainHook implements IXposedHookLoadPackage {
             }
         };
         h.postDelayed(sweep, ORPHAN_SWEEP_INTERVAL_MS);
-        XLog.i("maintenance sweeper started intervalMs=" + ORPHAN_SWEEP_INTERVAL_MS
+        XLog.boot("maintenance sweeper started intervalMs=" + ORPHAN_SWEEP_INTERVAL_MS
                 + " recycleAfterHiddenMs=" + RECYCLE_AFTER_HIDDEN_MS
                 + " recycleAfterBgMs=" + RECYCLE_AFTER_BG_MS);
     }
@@ -133,7 +133,7 @@ public class MainHook implements IXposedHookLoadPackage {
                         }
                     }
             );
-            XLog.i("hook Application.onCreate OK");
+            XLog.boot("hook Application.onCreate OK");
         } catch (Throwable t) {
             XLog.e("hook Application.onCreate failed", t);
         }
@@ -154,7 +154,7 @@ public class MainHook implements IXposedHookLoadPackage {
                     }
                 }
             });
-            XLog.i("hook GifInfoHandle.x OK");
+            XLog.boot("hook GifInfoHandle.x OK");
 
             try {
                 XposedBridge.hookAllMethods(cls, "renderFrame", new XC_MethodHook() {
@@ -166,9 +166,9 @@ public class MainHook implements IXposedHookLoadPackage {
                         }
                     }
                 });
-                XLog.i("hook GifInfoHandle.renderFrame OK");
+                XLog.boot("hook GifInfoHandle.renderFrame OK");
             } catch (Throwable t) {
-                XLog.w("hook renderFrame skipped: " + t.getMessage());
+                XLog.boot("hook renderFrame skipped: " + t.getMessage());
             }
 
             try {
@@ -182,9 +182,9 @@ public class MainHook implements IXposedHookLoadPackage {
                         }
                     }
                 });
-                XLog.i("hook GifInfoHandle.startDecoderThread OK");
+                XLog.boot("hook GifInfoHandle.startDecoderThread OK");
             } catch (Throwable t) {
-                XLog.w("hook startDecoderThread skipped: " + t.getMessage());
+                XLog.boot("hook startDecoderThread skipped: " + t.getMessage());
             }
 
             dumpMethods(cls, "GifInfoHandle");
@@ -297,7 +297,7 @@ public class MainHook implements IXposedHookLoadPackage {
             } catch (Throwable ignored) {
             }
 
-            XLog.i("hook GifDrawable.start/setVisible OK");
+            XLog.boot("hook GifDrawable.start/setVisible OK");
             dumpMethods(cls, "GifDrawable");
         } catch (Throwable t) {
             XLog.e("hook GifDrawable failed", t);
@@ -344,9 +344,9 @@ public class MainHook implements IXposedHookLoadPackage {
                     }
                 }
             });
-            XLog.i("hook RenderTask.e OK");
+            XLog.boot("hook RenderTask.e OK");
         } catch (Throwable t) {
-            XLog.w("hook RenderTask.e skipped: " + t.getMessage());
+            XLog.boot("hook RenderTask.e skipped: " + t.getMessage());
         }
     }
 

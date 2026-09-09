@@ -1,9 +1,10 @@
 # Verification checklist
 
-Baseline: module `0.2.2` behavior with L1 stop + L1.5 orphan sweep + L2 delayed recycle.
+Baseline: module `0.2.3` behavior with L1 stop + L1.5 orphan sweep + L2 delayed recycle.
 Always cold-start QQ after installing or updating the module before judging results.
+Use the **debug** APK when grepping action lines (`stop` / `recycleStale` / `render allowed` / `stats`). The **release** APK prints boot/startup lines only (`loading`, `hooks installed`, hook OK).
 
-## Functional (0.2.2 regression)
+## Functional (0.2.3 regression)
 
 - [ ] Foreground chat GIF animates normally
 - [ ] Fast scroll up/down and return within about 8s still resumes playback

@@ -53,7 +53,7 @@ final class UiVisibility {
             return;
         }
         sInstalled = true;
-        XLog.i("UiVisibility bootstrap");
+        XLog.boot("UiVisibility bootstrap");
     }
 
     static void setNonInteractiveListener(NonInteractiveListener listener) {
@@ -104,7 +104,7 @@ final class UiVisibility {
                 @Override public void onActivityDestroyed(Activity activity) {}
             });
             reevaluate("app-create");
-            XLog.i("ActivityLifecycleCallbacks registered");
+            XLog.boot("ActivityLifecycleCallbacks registered");
         } catch (Throwable t) {
             sLifecycleInstalled = false;
             XLog.e("registerActivityLifecycleCallbacks failed", t);
